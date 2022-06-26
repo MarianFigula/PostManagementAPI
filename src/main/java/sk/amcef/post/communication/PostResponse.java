@@ -1,9 +1,8 @@
-package sk.amcef.post;
+package sk.amcef.post.communication;
 
 import lombok.Data;
 import lombok.Getter;
-
-
+import sk.amcef.post.data.Post;
 
 @Getter
 @Data
@@ -19,5 +18,4 @@ public class PostResponse {
         this.title = post.getTitle();
         this.body = post.getBody();
     }
-
 }

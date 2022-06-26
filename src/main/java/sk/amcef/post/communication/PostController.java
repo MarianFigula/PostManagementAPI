@@ -1,9 +1,11 @@
-package sk.amcef.post;
+package sk.amcef.post.communication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import sk.amcef.exceptions.NotFoundException;
+import sk.amcef.post.logic.IPostService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,10 +16,6 @@ public class PostController {
 
     @Autowired
     private IPostService service;
-
-    private RestTemplate restTemplate;
-
-    private final String url = "https://jsonplaceholder.typicode.com/users/";
 
     @GetMapping()
     public List<PostResponse> getAllPosts(){
@@ -30,29 +28,30 @@ public class PostController {
         return new PostResponse(this.service.createPost(request));
     }
 
-    // TODO: pozriet ako to spojit a ci sa to da vlastne alebo to automaticky vie oddelit post/user id
     @GetMapping(value = "/{postId}")
-    public PostResponse getById(@PathVariable("postId") Integer postId){
+    public PostResponse getById(@PathVariable("postId") Integer postId) throws NotFoundException {
         return new PostResponse(this.service.getById(postId));
     }
 
+    // TODO: treba osetrit s internetom !!!
     @GetMapping(value = "/user/{userId}")
-    public PostResponse getByUserId(@PathVariable("userId") Integer userId){
-        restTemplate = new RestTemplate();
+    public List<PostResponse> getByUserId(@PathVariable("userId") Integer userId) throws NotFoundException{
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://jsonplaceholder.typicode.com/users/";
         if (restTemplate.getForObject(url + userId, Object.class) != null){
-            return new PostResponse(this.service.getByUserId(userId));
+            return this.service.getAllPostsByUserId(userId).stream().map(PostResponse::new).collect(Collectors.toList());
         }
         return null;
     }
 
 
     @PatchMapping(value = "/{postId}")
-    public PostResponse updatePost(@PathVariable("postId") Integer postId, @RequestBody PostRequest request){
+    public PostResponse updatePost(@PathVariable("postId") Integer postId, @RequestBody PostRequest request) throws NotFoundException{
         return new PostResponse(this.service.updatePost(postId, request));
     }
 
     @DeleteMapping(value = "/{postId}")
-    public void deletePost(@PathVariable("postId") Integer postId){
+    public void deletePost(@PathVariable("postId") Integer postId) throws NotFoundException{
         this.service.deletePost(postId);
     }
 

@@ -1,4 +1,4 @@
-package sk.amcef.post;
+package sk.amcef.post.data;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // TODO: bacha toto ma asi managovat externa
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private Integer userId;

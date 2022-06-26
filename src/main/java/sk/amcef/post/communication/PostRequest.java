@@ -1,4 +1,4 @@
-package sk.amcef.post;
+package sk.amcef.post.communication;
 
 import lombok.Getter;
 import lombok.Setter;

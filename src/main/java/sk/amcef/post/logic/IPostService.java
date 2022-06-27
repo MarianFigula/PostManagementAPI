@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface IPostService {
 
+    String URL = "https://jsonplaceholder.typicode.com/users/";
+
     List<Post> getAllPosts();
 
     List<Post> getAllPostsByUserId(Integer userId) throws NotFoundException;
 
-    Post createPost(PostRequest request);
+    Post createPost(PostRequest request) throws NotFoundException;
 
     Post getById(Integer postId) throws NotFoundException;
 

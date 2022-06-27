@@ -2,12 +2,15 @@ package sk.amcef.post.logic;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import sk.amcef.exceptions.NotFoundException;
 import sk.amcef.post.communication.PostRequest;
+import sk.amcef.post.communication.PostResponse;
 import sk.amcef.post.data.IPostRepository;
 import sk.amcef.post.data.Post;
 
 import java.util.List;
+import java.util.stream.Collectors;
 // https://jsonplaceholder.typicode.com/
 // TODO: pridat prispevok - validovat userID pomocou ext. API - ci je taky pouzivatel
 // TODO: zobrazenie prispevku podla id/userID - ak sa nenajde tak treba pouzit externu API
@@ -30,24 +33,37 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public Post createPost(PostRequest request) {
+    public Post createPost(PostRequest request) throws NotFoundException{
         Post post = new Post();
-        // TODO: ak vobec existuje taky user co ma userID
-        post.setUserId(request.getUserId());
-        post.setTitle(request.getTitle());
-        post.setBody(request.getBody());
+        RestTemplate restTemplate = new RestTemplate();
 
-        return this.postRepository.save(post);
+        try{
+            restTemplate.getForObject(this.URL + request.getUserId(), Object.class);
+            post.setUserId(request.getUserId());
+            post.setTitle(request.getTitle());
+            post.setBody(request.getBody());
+            return this.postRepository.save(post);
+        }
+        catch (Exception ignored){ }
+        return post;
     }
 
     @Override
     public Post getById(Integer postId) throws NotFoundException {
-        return this.postRepository.findPostById(postId);
+        Post post = this.postRepository.findPostById(postId);
+        if (post == null) {
+            throw new NotFoundException();
+        }
+        return post;
     }
 
     @Override
     public Post getByUserId(Integer userId) throws NotFoundException{
-        return this.postRepository.findPostByUserId(userId);
+        Post post = this.postRepository.findPostByUserId(userId);
+        if (post == null) {
+            throw new NotFoundException();
+        }
+        return post;
     }
 
     @Override

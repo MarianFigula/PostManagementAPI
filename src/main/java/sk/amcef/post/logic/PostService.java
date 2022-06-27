@@ -5,15 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import sk.amcef.exceptions.NotFoundException;
 import sk.amcef.post.communication.PostRequest;
-
 import sk.amcef.post.data.IPostRepository;
 import sk.amcef.post.data.Post;
-
 import java.util.List;
-
-// https://jsonplaceholder.typicode.com/
-// TODO: pridat prispevok - validovat userID pomocou ext. API - ci je taky pouzivatel
-// TODO: zobrazenie prispevku podla id/userID - ak sa nenajde tak treba pouzit externu API
 
 @Service
 public class PostService implements IPostService {

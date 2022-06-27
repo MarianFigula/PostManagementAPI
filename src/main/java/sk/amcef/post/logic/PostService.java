@@ -21,7 +21,6 @@ public class PostService implements IPostService {
     @Autowired
     private IPostRepository postRepository;
 
-
     @Override
     public List<Post> getAllPosts() {
         return this.postRepository.findAll();

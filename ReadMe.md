@@ -11,5 +11,5 @@ https://app.swaggerhub.com/apis-docs/MAJOFIGULAM3/MicroserviceAPI/1.0.0
 ## Popis systému
 
 Systém umožňuje pridávanie a odoberanie príspevkov. Ďalej umožnuje úpravu už existujúcich príspevkov 
-(**title**, **body**). Systém taktiež vie vyhľadať a vrátiť príspeovk podľa ID príspevku alebo ID používateľa.
-Umožnuje aj vrátenie všetkých doteraz vzniknutých príspevkov alebo vrátenie všetkých príspevkov od daného používateľa.
+(**title**, **body**). Taktiež dokáže vyhľadať a vrátiť príspeovk podľa ID príspevku alebo ID používateľa.
+Systém umožnuje aj vrátenie všetkých doteraz vzniknutých príspevkov alebo vrátenie všetkých príspevkov od daného používateľa.
